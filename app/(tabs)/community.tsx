@@ -2,14 +2,14 @@ import { View, Text } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const explore = () => {
+const community = () => {
   return (
     <SafeAreaView className="h-full bg-white">
       <View>
-        <Text>explore</Text>
+        <Text>community</Text>
       </View>
     </SafeAreaView>
   );
 };
 
-export default explore;
+export default community;
