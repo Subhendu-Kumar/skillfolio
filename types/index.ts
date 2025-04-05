@@ -20,3 +20,8 @@ export interface FormFieldProps {
   keyBoardType?: KeyboardTypeOptions;
   handleChangeText: (e: string) => void;
 }
+
+export interface EmptyStateProps {
+  title: string;
+  subTitle: string;
+}
