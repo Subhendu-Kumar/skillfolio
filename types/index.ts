@@ -62,3 +62,13 @@ export type UserProfile = {
   created_at: string; // ISO date string
   user: string; // user ID
 };
+
+export type Job = {
+  job_id: string;
+  job_title: string;
+  employer_name: string;
+  job_posted_at: string;
+  employer_logo: string | null;
+  job_employment_type: string;
+  job_location: string;
+};

@@ -1,97 +1,122 @@
-import React from "react";
-import { images } from "@/constants";
+import API from "@/api";
+import { Job } from "@/types";
 import JobCard from "@/components/JobCard";
-import EmptyState from "@/components/EmptyState";
-import { View, Text, FlatList, Image } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Sparkles, Wand2, FileText, Briefcase } from "lucide-react-native";
+import { icons, images } from "@/constants";
 import { useAuth } from "@/context/provider";
+import EmptyState from "@/components/EmptyState";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, FlatList, Image, Alert } from "react-native";
+import { Sparkles, Wand2, FileText, Briefcase } from "lucide-react-native";
 
 const home = () => {
   const { user } = useAuth();
-  const post = [
-    { id: 1, title: "Post 1" },
-    { id: 2, title: "Post 2" },
-    { id: 3, title: "Post 3" },
-  ];
+  const [jobs, setJobs] = useState<Job[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    setIsLoading(true);
+    try {
+      const res = await API.get("/latest/jobs/");
+      setJobs(res.data.jobs);
+    } catch (error) {
+      console.log("Error fetching jobs:", error);
+      Alert.alert("Error", "Failed to fetch jobs. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView className="h-full bg-white">
-      <FlatList
-        data={post}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <JobCard />}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={() => (
-          <EmptyState
-            title="No images found"
-            subTitle="Be the first one to upload image!"
+      <View className="justify-between flex-row items-start my-3 px-4 pb-2 border-b border-gray-200">
+        <View>
+          <Text className="font-pmedium text-sm text-gray-500">
+            Welcome back,
+          </Text>
+          <Text className="text-2xl text-purple-500 font-psemibold capitalize">
+            {user?.username}
+          </Text>
+        </View>
+        <Image source={images.logo} className="w-9 h-10" resizeMode="contain" />
+      </View>
+      {isLoading ? (
+        <View className="w-full h-full justify-center items-center">
+          <Image
+            source={icons.loader}
+            className="w-20 h-20 animate-spin"
+            resizeMode="contain"
           />
-        )}
-        ListHeaderComponent={() => (
-          <View className="my-3 px-4 space-y-3">
-            <View className="justify-between flex-row items-start mb-5">
-              <View>
-                <Text className="font-pmedium text-sm text-gray-500">
-                  Welcome back,
+        </View>
+      ) : (
+        <FlatList
+          data={jobs}
+          keyExtractor={(item) => item.job_id}
+          renderItem={({ item }) => <JobCard job={item} />}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <EmptyState title="No jobs found" subTitle="" />
+          )}
+          ListHeaderComponent={() => (
+            <View className="px-4 space-y-3">
+              <View className="w-full flex-1">
+                <Text className="text-base mb-2 font-pregular text-gray-700">
+                  Your Stats
                 </Text>
-                <Text className="text-2xl text-purple-500 font-psemibold capitalize">
-                  {user?.username}
+                <View className="w-full flex-row flex-wrap justify-between">
+                  <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
+                    <View>
+                      <Text className="text-xs text-gray-500">
+                        Resume Points
+                      </Text>
+                      <Text className="text-xl font-bold text-black">375</Text>
+                    </View>
+                    <Sparkles size={24} color="#fbbf24" />
+                  </View>
+                  <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
+                    <View>
+                      <Text className="text-xs text-gray-500">
+                        Resume Enhanced
+                      </Text>
+                      <Text className="text-xl font-bold text-black">
+                        0 time
+                      </Text>
+                    </View>
+                    <Wand2 size={24} color="#a78bfa" />
+                  </View>
+                  <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
+                    <View>
+                      <Text className="text-xs text-gray-500">
+                        Resume Created
+                      </Text>
+                      <Text className="text-xl font-bold text-black">0 Kg</Text>
+                    </View>
+                    <FileText size={24} color="#60a5fa" />
+                  </View>
+                  <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
+                    <View>
+                      <Text className="text-xs text-gray-500">
+                        Jobs Visited
+                      </Text>
+                      <Text className="text-xl font-bold text-black">0</Text>
+                    </View>
+                    <Briefcase size={24} color="#34d399" />
+                  </View>
+                </View>
+              </View>
+              <View className="w-full mt-6">
+                <Text className="text-xl font-psemibold">
+                  Jobs as your choice!
                 </Text>
               </View>
-              <Image
-                source={images.logo}
-                className="w-9 h-10"
-                resizeMode="contain"
-              />
             </View>
-            <View className="w-full flex-1">
-              <Text className="text-base mb-2 font-pregular text-gray-700">
-                Your Stats
-              </Text>
-              <View className="w-full flex-row flex-wrap justify-between">
-                <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
-                  <View>
-                    <Text className="text-xs text-gray-500">Resume Points</Text>
-                    <Text className="text-xl font-bold text-black">375</Text>
-                  </View>
-                  <Sparkles size={24} color="#fbbf24" />
-                </View>
-                <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
-                  <View>
-                    <Text className="text-xs text-gray-500">
-                      Resume Enhanced
-                    </Text>
-                    <Text className="text-xl font-bold text-black">0 time</Text>
-                  </View>
-                  <Wand2 size={24} color="#a78bfa" />
-                </View>
-                <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
-                  <View>
-                    <Text className="text-xs text-gray-500">
-                      Resume Created
-                    </Text>
-                    <Text className="text-xl font-bold text-black">0 Kg</Text>
-                  </View>
-                  <FileText size={24} color="#60a5fa" />
-                </View>
-                <View className="w-[48%] bg-white rounded-lg p-3 mb-3 flex-row items-center justify-between shadow border border-gray-200">
-                  <View>
-                    <Text className="text-xs text-gray-500">Jobs Visited</Text>
-                    <Text className="text-xl font-bold text-black">0</Text>
-                  </View>
-                  <Briefcase size={24} color="#34d399" />
-                </View>
-              </View>
-            </View>
-            <View className="w-full mt-6">
-              <Text className="text-xl font-psemibold">
-                Jobs as your choice!
-              </Text>
-            </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      )}
     </SafeAreaView>
   );
 };

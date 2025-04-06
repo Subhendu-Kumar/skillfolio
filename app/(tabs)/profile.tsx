@@ -214,7 +214,7 @@ const Profile = () => {
             <Text className="text-sm text-gray-500 mb-1">
               📞 +91 {form.phone_number} · 📍 {form.location}
             </Text>
-            <View className="mt-4 bg-gray-50 p-4 rounded-lg shadow-sm">
+            <View className="mt-4 bg-gray-100 p-4 rounded-lg shadow-sm">
               <Text className="text-base font-semibold text-gray-800">
                 {form.current_position} ({form.experience_years} years)
               </Text>
@@ -232,7 +232,7 @@ const Profile = () => {
               <Text className="text-lg font-semibold text-gray-800 mb-1">
                 Education
               </Text>
-              <View className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <View className="bg-gray-100 p-4 rounded-lg shadow-sm">
                 <Text className="text-sm text-gray-700 capitalize text-justify">
                   🎓 {form.highest_qualification} from {form.university} (
                   {form.graduation_year})
