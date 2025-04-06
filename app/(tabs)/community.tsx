@@ -4,9 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const community = () => {
   return (
-    <SafeAreaView className="h-full bg-white">
+    <SafeAreaView className="h-full w-full items-center justify-center bg-white">
       <View>
-        <Text>community</Text>
+        <Text className="text-xl text-center">community</Text>
+        <Text className="text-2xl text-center text-purple-500">comming soon</Text>
       </View>
     </SafeAreaView>
   );

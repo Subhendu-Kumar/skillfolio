@@ -1,5 +1,5 @@
 import API from "@/api";
-import { Job } from "@/types";
+import { Job, Stats } from "@/types";
 import JobCard from "@/components/JobCard";
 import { icons, images } from "@/constants";
 import { useAuth } from "@/context/provider";
@@ -13,15 +13,18 @@ const home = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState<Job[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    // fetchJobs();
+    fetchJobsAndUserStats();
   }, []);
 
-  const fetchJobs = async () => {
+  const fetchJobsAndUserStats = async () => {
     setIsLoading(true);
     try {
       const res = await API.get("/latest/jobs/");
+      const resStat = await API.get("/user/stats/");
+      setStats(resStat.data);
       setJobs(res.data.jobs);
     } catch (error) {
       console.log("Error fetching jobs:", error);
@@ -56,7 +59,13 @@ const home = () => {
         <FlatList
           data={jobs}
           keyExtractor={(item) => item.job_id}
-          renderItem={({ item }) => <JobCard job={item} />}
+          renderItem={({ item }) => (
+            <>
+              <View className="mb-4" />
+              <JobCard job={item} />
+              <View className="mb-4" />
+            </>
+          )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <EmptyState title="No jobs found" subTitle="" />
@@ -93,7 +102,7 @@ const home = () => {
                       <Text className="text-xs text-gray-500">
                         Resume Created
                       </Text>
-                      <Text className="text-xl font-bold text-black">0 Kg</Text>
+                      <Text className="text-xl font-bold text-black">0</Text>
                     </View>
                     <FileText size={24} color="#60a5fa" />
                   </View>
@@ -102,7 +111,7 @@ const home = () => {
                       <Text className="text-xs text-gray-500">
                         Jobs Visited
                       </Text>
-                      <Text className="text-xl font-bold text-black">0</Text>
+                      <Text className="text-xl font-bold text-black">{stats?.jobs_visited}</Text>
                     </View>
                     <Briefcase size={24} color="#34d399" />
                   </View>

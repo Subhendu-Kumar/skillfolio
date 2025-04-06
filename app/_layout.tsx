@@ -41,7 +41,14 @@ const RootLayout = () => {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="jobdetails/[job_id]"
-          options={{ headerShown: false }}
+          options={{
+            headerTitle: "Job Details",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
         />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>

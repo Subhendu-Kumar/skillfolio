@@ -72,3 +72,31 @@ export type Job = {
   job_employment_type: string;
   job_location: string;
 };
+
+export interface JobHighlights {
+  Qualifications?: string[];
+  Benefits?: string[];
+  Responsibilities?: string[];
+}
+
+export interface JobDetailsType {
+  job_id: string;
+  job_title: string;
+  employer_name: string;
+  employer_logo?: string;
+  employer_website?: string;
+  job_publisher?: string;
+  job_employment_type: string;
+  job_apply_link: string;
+  job_description: string;
+  job_posted_at: string;
+  job_posted_at_datetime_utc?: string;
+  job_location: string;
+  job_highlights?: JobHighlights;
+}
+
+export type Stats = {
+  id: string; // UUID of the Statistics record
+  user: string; // UUID of the associated user
+  jobs_visited: number; // Number of jobs visited
+};
