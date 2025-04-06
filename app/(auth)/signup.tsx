@@ -2,19 +2,19 @@ import {
   View,
   Text,
   Image,
+  Alert,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from "react-native";
-import { Link } from "expo-router";
+import axios from "axios";
+import { BASE_URL } from "@/config";
 import { images } from "@/constants";
 import React, { useState } from "react";
 import { FormStateSignUp } from "@/types";
+import { Link, router } from "expo-router";
 import FormField from "@/components/FormField";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { BASE_URL } from "@/config";
-import axios from "axios";
 
 const signup = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -31,10 +31,29 @@ const signup = () => {
     }
     setIsSubmitting(true);
     try {
-      const res = await axios.post(`${BASE_URL}/register/`, form);
-      console.log(res.data);
-    } catch (error) {
-      Alert.alert("Error", "Something went wrong. Please try again.");
+      await axios.post(`${BASE_URL}/register/`, form);
+      router.replace("/signin");
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        let messages = [];
+        if (typeof errorData === "object") {
+          for (const key in errorData) {
+            if (Array.isArray(errorData[key])) {
+              errorData[key].forEach((msg) => {
+                messages.push(`${key}: ${msg}`);
+              });
+            } else {
+              messages.push(`${key}: ${errorData[key]}`);
+            }
+          }
+        } else {
+          messages.push("Something went wrong. Please try again.");
+        }
+        Alert.alert("Error", messages.join("\n"));
+      } else {
+        Alert.alert("Error", "Something went wrong. Please try again.");
+      }
       console.log(error);
     } finally {
       setIsSubmitting(false);

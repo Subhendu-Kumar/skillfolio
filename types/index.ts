@@ -32,11 +32,33 @@ export interface AuthContextProps {
   loading: boolean;
   login: (token: string, user: User) => Promise<void>;
   logout: () => Promise<void>;
+  profile: UserProfile | null;
+  getProfileData: () => Promise<void>;
 }
 
 export interface User {
   id: string;
   email: string;
-  name: string;
+  username: string;
   exp: number;
 }
+
+export type UserProfile = {
+  id: string;
+  full_name: string;
+  phone_number: string;
+  location: string;
+  bio: string;
+  highest_qualification: string;
+  university: string;
+  graduation_year: number;
+  current_position: string;
+  experience_years: string; // If it's coming as a string (like "4.5"), keep this as string
+  skills: string;
+  linkedin: string;
+  github: string;
+  portfolio: string;
+  is_complete: boolean;
+  created_at: string; // ISO date string
+  user: string; // user ID
+};

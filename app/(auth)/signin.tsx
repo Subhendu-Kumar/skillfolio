@@ -2,26 +2,65 @@ import {
   View,
   Text,
   Image,
+  Alert,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { Link } from "expo-router";
+import axios from "axios";
+import { BASE_URL } from "@/config";
 import { images } from "@/constants";
 import React, { useState } from "react";
 import { FormStateSignIn } from "@/types";
+import { Link, router } from "expo-router";
+import { useAuth } from "@/context/provider";
 import FormField from "@/components/FormField";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const signin = () => {
+  const { login } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form, setForm] = useState<FormStateSignIn>({
     email: "",
     password: "",
   });
 
-  const submit = () => {
-    console.log("hello");
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert("Error", "Please fill all the fields");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await axios.post(`${BASE_URL}/login/`, form);
+      const data = res.data;
+      await login(data.token, data.user);
+      router.replace("/home");
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const errorData = error.response.data;
+        let messages = [];
+        if (typeof errorData === "object") {
+          for (const key in errorData) {
+            if (Array.isArray(errorData[key])) {
+              errorData[key].forEach((msg) => {
+                messages.push(`${key}: ${msg}`);
+              });
+            } else {
+              messages.push(`${key}: ${errorData[key]}`);
+            }
+          }
+        } else {
+          messages.push("Something went wrong. Please try again.");
+        }
+        Alert.alert("Error", messages.join("\n"));
+      } else {
+        Alert.alert("Error", "Something went wrong. Please try again.");
+      }
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

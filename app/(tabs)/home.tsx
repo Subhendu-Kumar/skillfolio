@@ -5,8 +5,10 @@ import EmptyState from "@/components/EmptyState";
 import { View, Text, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Sparkles, Wand2, FileText, Briefcase } from "lucide-react-native";
+import { useAuth } from "@/context/provider";
 
 const home = () => {
+  const { user } = useAuth();
   const post = [
     { id: 1, title: "Post 1" },
     { id: 2, title: "Post 2" },
@@ -34,7 +36,7 @@ const home = () => {
                   Welcome back,
                 </Text>
                 <Text className="text-2xl text-purple-500 font-psemibold capitalize">
-                  Subhendu
+                  {user?.username}
                 </Text>
               </View>
               <Image
