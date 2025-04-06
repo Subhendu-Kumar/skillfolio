@@ -1,6 +1,7 @@
 import React from "react";
 import { Job } from "@/types";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { router } from "expo-router";
 
 interface JobCardProps {
   job: Job;
@@ -8,7 +9,13 @@ interface JobCardProps {
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} className="px-4 my-2">
+    <TouchableOpacity
+      activeOpacity={0.8}
+      className="px-4 my-2"
+      onPress={() => {
+        router.push(`/jobdetails/${job.job_id}` as any);
+      }}
+    >
       <View className="w-full flex-row items-start bg-white p-4 rounded-lg shadow border border-gray-200">
         <Image
           source={{

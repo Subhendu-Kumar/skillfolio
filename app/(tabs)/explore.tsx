@@ -50,7 +50,13 @@ const explore = () => {
         <FlatList
           data={jobs}
           keyExtractor={(item) => item.job_id}
-          renderItem={({ item }) => <JobCard job={item} />}
+          renderItem={({ item }) => (
+            <>
+              <View className="mb-4" />
+              <JobCard job={item} />
+              <View className="mb-4" />
+            </>
+          )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <EmptyState title="No jobs found" subTitle="" />
