@@ -3,8 +3,15 @@ import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "@/context/provider";
 
 const Home = () => {
+  const { loading, isAuthenticated } = useAuth();
+
+  if (!loading && isAuthenticated) {
+    return <Redirect href="/home" />;
+  }
+
   return (
     <SafeAreaView className="h-full bg-white">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -19,7 +26,7 @@ const Home = () => {
             is your gateway to discovering endless career possibilities.
           </Text>
           <TouchableOpacity
-            onPress={() => router.push(`/home`)}
+            onPress={() => router.push(`/signin`)}
             className="w-full bg-purple-400 mt-6 rounded-lg justify-center items-center p-2"
           >
             <Text className="text-white text-center font-psemibold text-lg">

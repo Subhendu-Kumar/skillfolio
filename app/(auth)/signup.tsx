@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { Link } from "expo-router";
 import { images } from "@/constants";
@@ -12,6 +13,8 @@ import React, { useState } from "react";
 import { FormStateSignUp } from "@/types";
 import FormField from "@/components/FormField";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { BASE_URL } from "@/config";
+import axios from "axios";
 
 const signup = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -21,8 +24,21 @@ const signup = () => {
     password: "",
   });
 
-  const submit = () => {
-    console.log("hello");
+  const submit = async () => {
+    if (!form.username || !form.email || !form.password) {
+      Alert.alert("Error", "Please fill all the fields");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const res = await axios.post(`${BASE_URL}/register/`, form);
+      console.log(res.data);
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong. Please try again.");
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

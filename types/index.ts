@@ -25,3 +25,18 @@ export interface EmptyStateProps {
   title: string;
   subTitle: string;
 }
+
+export interface AuthContextProps {
+  isAuthenticated: boolean;
+  user: User | null;
+  loading: boolean;
+  login: (token: string, user: User) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  exp: number;
+}
