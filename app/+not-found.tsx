@@ -5,7 +5,7 @@ const NotFoundScreen = () => {
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
-      <View>
+      <View className="w-full h-full items-center justify-center bg-white">
         <Text>This screen doesn't exist.</Text>
         <Link href="/">
           <Text>Go to home screen!</Text>

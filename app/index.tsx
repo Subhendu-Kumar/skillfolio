@@ -1,9 +1,9 @@
 import { images } from "../constants";
 import { StatusBar } from "expo-status-bar";
-import { Redirect, router } from "expo-router";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/context/provider";
+import { Redirect, router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const Home = () => {
   const { loading, isAuthenticated } = useAuth();

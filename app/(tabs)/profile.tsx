@@ -17,67 +17,67 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const profileLable = [
   {
-    label: "Full Name",
     key: "full_name",
+    label: "Full Name",
     placeholder: "Your full name",
   },
   {
-    label: "Phone Number",
     key: "phone_number",
-    placeholder: "10-digit number",
+    label: "Phone Number",
     keyboardType: "phone-pad",
+    placeholder: "10-digit number",
   },
   {
-    label: "Location",
     key: "location",
+    label: "Location",
     placeholder: "City, State",
   },
   { label: "Bio", key: "bio", placeholder: "Short bio or intro" },
   {
-    label: "Highest Qualification",
-    key: "highest_qualification",
     placeholder: "e.g., B.Tech",
+    key: "highest_qualification",
+    label: "Highest Qualification",
   },
   {
-    label: "University",
     key: "university",
+    label: "University",
     placeholder: "University name",
   },
   {
-    label: "Graduation Year",
     key: "graduation_year",
-    placeholder: "e.g., 2026",
     keyboardType: "numeric",
+    label: "Graduation Year",
+    placeholder: "e.g., 2026",
   },
   {
-    label: "Current Position",
     key: "current_position",
+    label: "Current Position",
     placeholder: "e.g., Developer",
   },
   {
-    label: "Years of Experience",
-    key: "experience_years",
     placeholder: "e.g., 3",
     keyboardType: "numeric",
+    key: "experience_years",
+    label: "Years of Experience",
   },
   {
-    label: "Skills",
     key: "skills",
+    label: "Skills",
     placeholder: "Comma separated e.g., React, Node",
   },
   {
-    label: "LinkedIn URL",
     key: "linkedin",
+    label: "LinkedIn URL",
     placeholder: "https://linkedin.com/...",
   },
   {
-    label: "GitHub URL",
     key: "github",
+    label: "GitHub URL",
     placeholder: "https://github.com/...",
   },
   {
-    label: "Portfolio URL",
     key: "portfolio",
+    label: "Portfolio URL",
     placeholder: "https://...",
   },
 ];

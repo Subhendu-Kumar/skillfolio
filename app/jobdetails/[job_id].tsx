@@ -118,7 +118,7 @@ const JobDetailsPage = () => {
           </TouchableOpacity>
           <Text className="text-xl font-bold mb-2">About the job</Text>
           <Text className="font-semibold mb-1">Company Description</Text>
-          <Text className="text-gray-700 leading-relaxed">
+          <Text className="text-gray-700 leading-relaxed text-justify">
             {jobDetails?.job_description}
           </Text>
         </>

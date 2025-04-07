@@ -42,6 +42,7 @@ const RootLayout = () => {
         <Stack.Screen
           name="jobdetails/[job_id]"
           options={{
+            headerShown: true,
             headerTitle: "Job Details",
             headerTitleStyle: {
               fontSize: 20,

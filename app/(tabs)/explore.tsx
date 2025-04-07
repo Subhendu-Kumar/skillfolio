@@ -3,7 +3,6 @@ import { Job } from "@/types";
 import React, { useState } from "react";
 import JobCard from "@/components/JobCard";
 import { icons, images } from "@/constants";
-import EmptyState from "@/components/EmptyState";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, Image, Alert, FlatList } from "react-native";
 
@@ -59,7 +58,9 @@ const explore = () => {
           )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
-            <EmptyState title="No jobs found" subTitle="" />
+            <View className="my-10 w-full items-center justify-center">
+              <Text className="text-red-400">No jobs found for your query</Text>
+            </View>
           )}
         />
       ) : (

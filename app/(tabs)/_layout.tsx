@@ -7,9 +7,9 @@ const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: "#e159e3",
         tabBarInactiveTintColor: "#b9b9c9",
-        headerShown: false,
         tabBarStyle: Platform.select({
           ios: {
             position: "absolute",

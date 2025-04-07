@@ -3,7 +3,6 @@ import { Job, Stats } from "@/types";
 import JobCard from "@/components/JobCard";
 import { icons, images } from "@/constants";
 import { useAuth } from "@/context/provider";
-import EmptyState from "@/components/EmptyState";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, FlatList, Image, Alert } from "react-native";
@@ -68,7 +67,9 @@ const home = () => {
           )}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
-            <EmptyState title="No jobs found" subTitle="" />
+            <View className="my-10 w-full items-center justify-center">
+              <Text className="text-red-400">No jobs found</Text>
+            </View>
           )}
           ListHeaderComponent={() => (
             <View className="px-4 space-y-3">
@@ -111,7 +112,9 @@ const home = () => {
                       <Text className="text-xs text-gray-500">
                         Jobs Visited
                       </Text>
-                      <Text className="text-xl font-bold text-black">{stats?.jobs_visited}</Text>
+                      <Text className="text-xl font-bold text-black">
+                        {stats?.jobs_visited}
+                      </Text>
                     </View>
                     <Briefcase size={24} color="#34d399" />
                   </View>

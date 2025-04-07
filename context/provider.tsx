@@ -1,4 +1,3 @@
-import API from "@/api";
 import {
   getUser,
   setUser,
@@ -6,16 +5,17 @@ import {
   saveToken,
   clearUserData,
 } from "@/lib/utils";
+import API from "@/api";
+import { Alert } from "react-native";
 import { AuthContextProps, User, UserProfile } from "@/types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Alert } from "react-native";
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUserState] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setprofile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
@@ -65,13 +65,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         user,
-        loading,
         login,
         logout,
         profile,
+        loading,
         getProfileData,
+        isAuthenticated,
       }}
     >
       {children}

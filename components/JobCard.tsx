@@ -1,11 +1,7 @@
 import React from "react";
-import { Job } from "@/types";
-import { View, Text, TouchableOpacity, Image } from "react-native";
 import { router } from "expo-router";
-
-interface JobCardProps {
-  job: Job;
-}
+import { JobCardProps } from "@/types";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
   return (
