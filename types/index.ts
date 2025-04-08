@@ -1,3 +1,4 @@
+import { LucideIcon } from "lucide-react-native";
 import { KeyboardTypeOptions } from "react-native";
 
 export interface FormStateSignIn {

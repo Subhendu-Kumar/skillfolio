@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import * as SplashScreen from "expo-splash-screen";
 import { AuthProvider } from "@/context/provider";
+import * as SplashScreen from "expo-splash-screen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,6 +44,30 @@ const RootLayout = () => {
           options={{
             headerShown: true,
             headerTitle: "Job Details",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="atschecker/upload"
+          options={{
+            headerShown: true,
+            headerTitle: "ATS Resume Checker",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="atschecker/result"
+          options={{
+            headerShown: true,
+            headerTitle: "ATS Result",
             headerTitleStyle: {
               fontSize: 20,
               fontWeight: "semibold",

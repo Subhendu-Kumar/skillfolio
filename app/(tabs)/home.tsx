@@ -15,7 +15,7 @@ const home = () => {
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    fetchJobsAndUserStats();
+    // fetchJobsAndUserStats();
   }, []);
 
   const fetchJobsAndUserStats = async () => {
