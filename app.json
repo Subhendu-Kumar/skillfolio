@@ -33,6 +33,9 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-document-picker"
+      ],
       "expo-secure-store"
     ],
     "experiments": {
