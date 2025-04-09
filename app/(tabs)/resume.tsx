@@ -10,12 +10,6 @@ const resume = () => {
       <View className="w-full px-4 py-2 border-b border-gray-200">
         <Text className="text-2xl font-bold">Build & Analyze Resume</Text>
       </View>
-      <TouchableOpacity
-        className="px-2 py-1 bg-red-400"
-        onPress={() => router.push("/atschecker/result")}
-      >
-        <Text>result page</Text>
-      </TouchableOpacity>
       <ScrollView className="w-full h-full px-4 py-4 space-y-6 bg-white">
         <View className="w-full items-center justify-center px-4 mt-4 mb-6">
           <Text className="text-center text-2xl font-bold text-gray-800">
