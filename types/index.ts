@@ -101,7 +101,7 @@ export interface JobCardProps {
   job: Job;
 }
 
-type ScoreResponse = {
+export interface ScoreResponse {
   total_score: string;
   common_mistakes: string[];
   optimizations: string[];
@@ -112,10 +112,4 @@ type ScoreResponse = {
     suggestions: string;
   };
   essential_checks: Record<string, string>;
-};
-
-type RootStackParamList = {
-  ResumeSubmitScreen: undefined;
-  ResumeResultScreen: { scoreResponse: ScoreResponse };
-};
-export type { RootStackParamList };
+}

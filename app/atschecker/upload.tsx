@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import API from "@/api";
-import { BASE_URL } from "@/config";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Lock } from "lucide-react-native";
@@ -52,7 +51,7 @@ const upload = () => {
         type: "application/pdf",
       } as any);
       formData.append("job_description", jobDescription);
-      const response = await API.post(`${BASE_URL}/ats/resume/`, formData, {
+      const response = await API.post("/ats/resume/", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       if (response.status === 200) {
