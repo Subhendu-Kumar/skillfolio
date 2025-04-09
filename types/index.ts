@@ -101,15 +101,38 @@ export interface JobCardProps {
   job: Job;
 }
 
-export interface ScoreResponse {
-  total_score: string;
-  common_mistakes: string[];
-  optimizations: string[];
-  job_description_keywords: string[];
-  keyword_skill_matching: {
-    matched_keywords: string[];
-    missing_keywords: string[];
-    suggestions: string;
-  };
-  essential_checks: Record<string, string>;
+// Generalized Types for Resume Enhancer
+
+export interface PersonalInfo {
+  [key: string]: string; // Allows any key like name, email, phone, linkedin, github, etc.
+}
+
+export interface Experience {
+  company: string;
+  role: string;
+  dates: string;
+  responsibilities: string;
+}
+
+export interface Education {
+  institution: string;
+  degree: string;
+  dates: string;
+}
+
+export interface Project {
+  title: string;
+  tech_stack: string;
+  description: string;
+}
+
+export interface EnhancedResume {
+  personal_info: PersonalInfo;
+  summary: string;
+  skills: string[];
+  experience: Experience[];
+  education: Education[];
+  certifications: string[]; // Can be upgraded to objects if needed later
+  projects: Project[];
+  additional_information?: string;
 }

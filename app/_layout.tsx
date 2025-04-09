@@ -75,6 +75,18 @@ const RootLayout = () => {
             },
           }}
         />
+        <Stack.Screen
+          name="enhance/getresume"
+          options={{
+            headerShown: true,
+            headerTitle: "Enhance Resume",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />

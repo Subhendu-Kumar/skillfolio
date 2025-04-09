@@ -43,6 +43,9 @@ const resume = () => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
+          onPress={() => {
+            router.push("/enhance/getresume");
+          }}
           className="w-full my-3 bg-white border border-gray-200 rounded-2xl shadow-lg p-4 flex-col gap-3 items-center justify-center"
         >
           <View className="bg-green-100 p-3 rounded-full">
