@@ -13,13 +13,17 @@ import { EnhancedResume } from "@/types";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 
+const A4_WIDTH_MM = 210;
+const A4_HEIGHT_MM = 297;
+
 export default function ResumePdfGenerator({
   resumeData,
+  setEnhancedData,
 }: {
   resumeData: EnhancedResume;
+  setEnhancedData: React.Dispatch<React.SetStateAction<EnhancedResume | null>>;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [savedFilePath, setSavedFilePath] = useState<string | null>(null);
 
   // Check and request storage permissions
   const requestPermissions = async () => {
@@ -101,9 +105,10 @@ export default function ResumePdfGenerator({
         <style>
           body {
             font-family: 'Helvetica', Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1;
             color: #333;
-            max-width: 800px;
+            width: ${A4_WIDTH_MM}mm;
+            height: ${A4_HEIGHT_MM}mm;
             margin: 0 auto;
             padding: 20px;
           }
@@ -218,6 +223,8 @@ export default function ResumePdfGenerator({
             margin-top: 30px;
             color: #7f8c8d;
           }
+
+          @page { size: A4; }
         </style>
       </head>
       <body>
@@ -264,11 +271,9 @@ export default function ResumePdfGenerator({
     `;
   };
 
-  // Generate and save PDF
   const generateResumePDF = async () => {
     try {
       setIsLoading(true);
-      // Request storage permissions - needs to be WRITE_EXTERNAL_STORAGE for Android
       const hasPermission = await requestPermissions();
       if (!hasPermission && Platform.OS === "android") {
         Alert.alert(
@@ -279,19 +284,15 @@ export default function ResumePdfGenerator({
         setIsLoading(false);
         return;
       }
-      // Generate HTML from resume data
       const html = createResumeHTML(resumeData);
-      // Convert HTML to PDF
       const { uri } = await Print.printToFileAsync({
         html,
         base64: false,
       });
       console.log("Generated PDF URI:", uri);
-      // Generate filename
       const name = resumeData.personal_info.name.replace(/\s+/g, "_");
       const timestamp = new Date().getTime();
       const filename = `${name}_Resume_${timestamp}.pdf`;
-      // For Android API level 29+ (Android 10+)
       if (
         Platform.OS === "android" &&
         parseInt(String(Platform.Version), 10) >= 29
@@ -300,48 +301,37 @@ export default function ResumePdfGenerator({
           const permissions =
             await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
           if (permissions.granted) {
-            // Get the Downloads directory
             const downloadUri = permissions.directoryUri;
-            // Create new file in Download directory
             const destinationUri =
               await FileSystem.StorageAccessFramework.createFileAsync(
                 downloadUri,
                 filename,
                 "application/pdf"
               );
-            // Read the PDF content
             const pdfContent = await FileSystem.readAsStringAsync(uri, {
               encoding: FileSystem.EncodingType.Base64,
             });
-            // Write to the destination file
             await FileSystem.StorageAccessFramework.writeAsStringAsync(
               destinationUri,
               pdfContent,
               { encoding: FileSystem.EncodingType.Base64 }
             );
-            setSavedFilePath(destinationUri);
-            Alert.alert(
-              "Success",
-              `Resume PDF saved to Downloads as "${filename}"`
-            );
+            Alert.alert("Success", `Resume PDF saved as "${filename}"`);
           } else {
-            // Fall back to sharing
             await Sharing.shareAsync(uri);
           }
         } catch (error) {
           console.error("SAF error:", error);
-          // Fallback to sharing
           await Sharing.shareAsync(uri);
         }
       } else {
-        // On iOS, share instead of direct save
         await Sharing.shareAsync(uri, {
           UTI: ".pdf",
           mimeType: "application/pdf",
           dialogTitle: `Share ${filename}`,
         });
-        setSavedFilePath(uri);
       }
+      setEnhancedData(null); // Clear the enhanced data after sharing
     } catch (error: any) {
       console.error("Error generating PDF:", error);
       Alert.alert(

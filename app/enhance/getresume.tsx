@@ -159,7 +159,10 @@ const getresume = () => {
               <Text className="text-green-600 text-center text-base font-medium mb-4">
                 ✅ Data received successfully! Generate your PDF resume below.
               </Text>
-              <ResumePdfGenerator resumeData={enhancedData} />
+              <ResumePdfGenerator
+                resumeData={enhancedData}
+                setEnhancedData={setEnhancedData}
+              />
             </View>
           </View>
         )}
