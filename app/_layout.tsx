@@ -87,6 +87,30 @@ const RootLayout = () => {
             },
           }}
         />
+        <Stack.Screen
+          name="join/getcommunities"
+          options={{
+            headerShown: true,
+            headerTitle: "Explore Communities",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="chatroom/[group_id]"
+          options={{
+            headerShown: true,
+            headerTitle: "Job Details",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
         <Stack.Screen name="+not-found" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
