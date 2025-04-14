@@ -18,9 +18,11 @@ expo-env.d.ts
 *.mobileprovision
 
 nativewind-env.d.ts
+env.d.ts
 
 # Metro
 .metro-health-check*
+.env
 
 # debug
 npm-debug.*

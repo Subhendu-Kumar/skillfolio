@@ -88,7 +88,7 @@ const RootLayout = () => {
           }}
         />
         <Stack.Screen
-          name="join/getcommunities"
+          name="group/join"
           options={{
             headerShown: true,
             headerTitle: "Explore Communities",
@@ -104,6 +104,18 @@ const RootLayout = () => {
           options={{
             headerShown: true,
             headerTitle: "Job Details",
+            headerTitleStyle: {
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "#1f2937",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="group/create"
+          options={{
+            headerShown: true,
+            headerTitle: "Create Group",
             headerTitleStyle: {
               fontSize: 20,
               fontWeight: "semibold",

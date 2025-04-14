@@ -1,4 +1,3 @@
-import { LucideIcon } from "lucide-react-native";
 import { KeyboardTypeOptions } from "react-native";
 
 export interface FormStateSignIn {
@@ -101,10 +100,8 @@ export interface JobCardProps {
   job: Job;
 }
 
-// Generalized Types for Resume Enhancer
-
 export interface PersonalInfo {
-  [key: string]: string; // Allows any key like name, email, phone, linkedin, github, etc.
+  [key: string]: string;
 }
 
 export interface Experience {
@@ -132,7 +129,33 @@ export interface EnhancedResume {
   skills: string[];
   experience: Experience[];
   education: Education[];
-  certifications: string[]; // Can be upgraded to objects if needed later
+  certifications: string[];
   projects: Project[];
   additional_information?: string;
+}
+
+export type GroupMember = {
+  userId: string;
+  userName: string;
+};
+
+export type LatestMessage = {
+  id: string;
+  message: string;
+  timestamp: Date;
+  senderId: string;
+  senderName: string;
+};
+
+export type JoinedGroup = {
+  id: string;
+  groupName: string;
+  groupIconUrl: string;
+  latestMessage: LatestMessage | null;
+};
+
+export interface NotJoinedGroups {
+  id: string;
+  groupName: string;
+  groupIconUrl: string;
 }

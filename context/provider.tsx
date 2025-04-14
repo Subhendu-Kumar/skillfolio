@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userInfo = await getUser();
       setIsAuthenticated(!!token && !!userInfo);
       setUserState(userInfo);
-      setLoading(false);
     };
     initAuth();
     getProfileData();

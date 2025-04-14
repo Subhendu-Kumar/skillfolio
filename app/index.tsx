@@ -1,15 +1,22 @@
 import { images } from "../constants";
 import { StatusBar } from "expo-status-bar";
 import { useAuth } from "@/context/provider";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const Home = () => {
   const { loading, isAuthenticated } = useAuth();
 
   if (!loading && isAuthenticated) {
-    return <Redirect href="/home" />;
+    return router.replace("/home");
   }
 
   return (
@@ -26,12 +33,19 @@ const Home = () => {
             is your gateway to discovering endless career possibilities.
           </Text>
           <TouchableOpacity
+            disabled={loading}
             onPress={() => router.push(`/signin`)}
             className="w-full bg-purple-400 mt-6 rounded-lg justify-center items-center p-2"
           >
             <Text className="text-white text-center font-psemibold text-lg">
-              Get Strated
-            </Text>{" "}
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text className="text-center font-psemibold text-white">
+                  Get Started
+                </Text>
+              )}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
