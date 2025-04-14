@@ -12,8 +12,9 @@ import {
 import API from "@/api";
 import moment from "moment";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import { UserProfile } from "@/types";
 import { useAuth } from "@/context/provider";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const profileLable = [
@@ -84,9 +85,11 @@ const profileLable = [
 ];
 
 const Profile = () => {
-  const { user, logout, profile, getProfileData, profileLoading } = useAuth();
+  const { user, logout } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [profile, setprofile] = useState<UserProfile | null>(null);
   const [form, setForm] = useState({
     bio: profile?.bio,
     skills: profile?.skills,
@@ -102,6 +105,10 @@ const Profile = () => {
     experience_years: profile?.experience_years,
     highest_qualification: profile?.highest_qualification,
   });
+
+  useEffect(() => {
+    getProfileData();
+  }, []);
 
   const openLink = async (url: string) => {
     const supported = await Linking.canOpenURL(url);
@@ -121,6 +128,38 @@ const Profile = () => {
         {skill.trim()}
       </Text>
     ));
+
+  const getProfileData = async () => {
+    setFetching(true);
+    try {
+      const res = await API.get("/profile/detail/");
+      const fetchedProfile = res.data;
+      setprofile(fetchedProfile);
+      setForm({
+        bio: fetchedProfile.bio || "",
+        skills: fetchedProfile.skills || "",
+        github: fetchedProfile.github || "",
+        linkedin: fetchedProfile.linkedin || "",
+        location: fetchedProfile.location || "",
+        portfolio: fetchedProfile.portfolio || "",
+        full_name: fetchedProfile.full_name || "",
+        university: fetchedProfile.university || "",
+        phone_number: fetchedProfile.phone_number || "",
+        current_position: fetchedProfile.current_position || "",
+        graduation_year: fetchedProfile.graduation_year?.toString() || "",
+        highest_qualification: fetchedProfile.highest_qualification || "",
+        experience_years: fetchedProfile.experience_years?.toString() || "",
+      });
+    } catch (error: any) {
+      console.error("Error fetching profile data:", error?.message);
+      Alert.alert(
+        "Error",
+        "Failed to fetch profile data. check network connection"
+      );
+    } finally {
+      setFetching(false);
+    }
+  };
 
   const submitUpdate = async () => {
     setLoading(true);
@@ -155,10 +194,12 @@ const Profile = () => {
     ]);
   };
 
-  if (profileLoading) {
-    <View className="w-full h-full items-center justify-center">
-      <ActivityIndicator size="large" />
-    </View>;
+  if (fetching) {
+    return (
+      <View className="w-full h-full items-center justify-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   return (

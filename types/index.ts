@@ -24,11 +24,8 @@ export interface FormFieldProps {
 export interface AuthContextProps {
   user: User | null;
   loading: boolean;
-  profileLoading: boolean;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
-  profile: UserProfile | null;
-  getProfileData: () => Promise<void>;
   login: (token: string, user: User) => Promise<void>;
 }
 
@@ -159,4 +156,17 @@ export interface NotJoinedGroups {
   id: string;
   groupName: string;
   groupIconUrl: string;
+}
+
+export interface ScoreResponse {
+  total_score: string;
+  common_mistakes: string[];
+  optimizations: string[];
+  job_description_keywords: string[];
+  keyword_skill_matching: {
+    matched_keywords: string[];
+    missing_keywords: string[];
+    suggestions: string;
+  };
+  essential_checks: Record<string, string>;
 }

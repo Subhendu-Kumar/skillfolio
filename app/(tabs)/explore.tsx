@@ -1,8 +1,8 @@
 import API from "@/api";
 import { Job } from "@/types";
+import { images } from "@/constants";
 import React, { useState } from "react";
 import JobCard from "@/components/JobCard";
-import { icons, images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, Image, Alert, FlatList } from "react-native";
 
