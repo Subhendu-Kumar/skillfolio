@@ -67,7 +67,7 @@ const explore = () => {
         <View className="w-full my-24 items-center justify-center">
           <Image
             source={images.job_search}
-            className="w-60 h-32"
+            className="w-full h-60"
             resizeMode="contain"
           />
           <Text className="text-gray-500 text-base text-center px-6 mt-4">

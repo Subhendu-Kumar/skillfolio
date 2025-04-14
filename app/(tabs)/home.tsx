@@ -1,11 +1,18 @@
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import API from "@/api";
+import { images } from "@/constants";
 import { Job, Stats } from "@/types";
 import JobCard from "@/components/JobCard";
-import { icons, images } from "@/constants";
 import { useAuth } from "@/context/provider";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, FlatList, Image, Alert } from "react-native";
 import { Sparkles, Wand2, FileText, Briefcase } from "lucide-react-native";
 
 const home = () => {
@@ -48,11 +55,7 @@ const home = () => {
       </View>
       {isLoading ? (
         <View className="w-full h-full justify-center items-center">
-          <Image
-            source={icons.loader}
-            className="w-20 h-20 animate-spin"
-            resizeMode="contain"
-          />
+          <ActivityIndicator size="large" color="#000000" />
         </View>
       ) : (
         <FlatList
@@ -60,9 +63,8 @@ const home = () => {
           keyExtractor={(item) => item.job_id}
           renderItem={({ item }) => (
             <>
-              <View className="mb-4" />
+              <View className="mb-2" />
               <JobCard job={item} />
-              <View className="mb-4" />
             </>
           )}
           showsVerticalScrollIndicator={false}
