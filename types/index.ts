@@ -24,6 +24,7 @@ export interface FormFieldProps {
 export interface AuthContextProps {
   user: User | null;
   loading: boolean;
+  profileLoading: boolean;
   isAuthenticated: boolean;
   logout: () => Promise<void>;
   profile: UserProfile | null;

@@ -14,6 +14,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
   const [user, setUserState] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profile, setprofile] = useState<UserProfile | null>(null);
@@ -24,15 +25,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userInfo = await getUser();
       setIsAuthenticated(!!token && !!userInfo);
       setUserState(userInfo);
+      setLoading(false);
     };
     initAuth();
-    getProfileData();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getProfileData();
+    }
+  }, [isAuthenticated]);
 
   const getProfileData = async () => {
     const token = await getToken();
     if (token) {
-      setLoading(true);
+      setProfileLoading(true);
       try {
         const res = await API.get("/profile/detail/");
         setprofile(res.data);
@@ -43,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           "Failed to fetch profile data. check network connection"
         );
       } finally {
-        setLoading(false);
+        setProfileLoading(false);
       }
     }
   };
@@ -69,6 +76,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logout,
         profile,
         loading,
+        profileLoading,
         getProfileData,
         isAuthenticated,
       }}

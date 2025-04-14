@@ -84,13 +84,7 @@ const profileLable = [
 ];
 
 const Profile = () => {
-  const {
-    user,
-    logout,
-    profile,
-    getProfileData,
-    loading: isLoading,
-  } = useAuth();
+  const { user, logout, profile, getProfileData, profileLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [form, setForm] = useState({
@@ -161,7 +155,7 @@ const Profile = () => {
     ]);
   };
 
-  if (isLoading) {
+  if (profileLoading) {
     <View className="w-full h-full items-center justify-center">
       <ActivityIndicator size="large" />
     </View>;

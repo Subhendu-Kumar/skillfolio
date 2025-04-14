@@ -61,62 +61,62 @@ const signup = () => {
   };
 
   return (
-    <SafeAreaView className="h-full bg-white">
-      <ScrollView>
-        <View className="w-full min-h-[85vh] my-6 px-4 justify-center">
+    <SafeAreaView className="h-full w-full bg-white items-center justify-center">
+      <ScrollView className="w-full h-full px-4">
+        <View className="flex-1 justify-center items-center">
           <Image
-            source={images.logo}
-            className="w-16 h-16"
+            source={images.signin_signup}
+            className="w-80 h-60"
             resizeMode="contain"
           />
-          <Text className="text-2xl font-psemibold mt-3 text-[#7a6a6a]">
-            Sign up to <Text className="text-[#09bff1]">SkillFolio</Text>
-          </Text>
-          <FormField
-            title="Username"
-            value={form.username}
-            handleChangeText={(e: string) => setForm({ ...form, username: e })}
-            otherStyles="mt-7"
-            placeholder="Enter your username"
-          />
-          <FormField
-            title="Email"
-            value={form.email}
-            handleChangeText={(e: string) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
-            keyBoardType="email-address"
-            placeholder="Enter your email"
-          />
-          <FormField
-            title="Password"
-            value={form.password}
-            handleChangeText={(e: string) => setForm({ ...form, password: e })}
-            otherStyles="mt-7"
-            placeholder="Enter your password"
-          />
-          <TouchableOpacity
-            onPress={submit}
-            className="w-full bg-purple-400 mt-6 rounded-lg justify-center items-center p-2"
-          >
-            {isSubmitting ? (
-              <ActivityIndicator size="large" />
-            ) : (
-              <Text className={`text-white text-center font-psemibold text-lg`}>
-                Submit
-              </Text>
-            )}
-          </TouchableOpacity>
-          <View className="flex-row justify-center pt-5 gap-2">
-            <Text className="text-lg text-gray-600 font-pregular">
-              Already have an account?
+        </View>
+        <Text className="text-2xl text-center font-psemibold mt-3 text-[#7a6a6a]">
+          Sign up to <Text className="text-[#09bff1]">SkillFolio</Text>
+        </Text>
+        <FormField
+          title="Username"
+          value={form.username}
+          handleChangeText={(e: string) => setForm({ ...form, username: e })}
+          otherStyles="mt-7"
+          placeholder="Enter your username"
+        />
+        <FormField
+          title="Email"
+          value={form.email}
+          handleChangeText={(e: string) => setForm({ ...form, email: e })}
+          otherStyles="mt-7"
+          keyBoardType="email-address"
+          placeholder="Enter your email"
+        />
+        <FormField
+          title="Password"
+          value={form.password}
+          handleChangeText={(e: string) => setForm({ ...form, password: e })}
+          otherStyles="mt-7"
+          placeholder="Enter your password"
+        />
+        <TouchableOpacity
+          onPress={submit}
+          className="w-full bg-purple-400 mt-6 rounded-lg justify-center items-center p-2"
+        >
+          {isSubmitting ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Text className={`text-white text-center font-psemibold text-lg`}>
+              Submit
             </Text>
-            <Link
-              href="/signin"
-              className="text-lg text-purple-400 font-psemibold text-secondary"
-            >
-              Sign in
-            </Link>
-          </View>
+          )}
+        </TouchableOpacity>
+        <View className="flex-row justify-center pt-5 gap-2">
+          <Text className="text-lg text-gray-600 font-pregular">
+            Already have an account?
+          </Text>
+          <Link
+            href="/signin"
+            className="text-lg text-purple-400 font-psemibold text-secondary"
+          >
+            Sign in
+          </Link>
         </View>
       </ScrollView>
     </SafeAreaView>
