@@ -5,16 +5,17 @@ import {
   orderBy,
   getDocs,
   updateDoc,
-  onSnapshot,
   arrayUnion,
   collection,
   serverTimestamp,
   limit,
-  DocumentData,
   where,
   getDoc,
+  onSnapshot,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "./firebaseconfig";
+import { Message } from "@/types";
 
 export const createGroup = async (
   groupName: string,
@@ -88,40 +89,6 @@ export const joinGroup = async (
   }
 };
 
-export const sendMessage = async (
-  groupId: string,
-  senderId: string,
-  senderName: string,
-  messageText: string
-) => {
-  const message = {
-    senderId,
-    senderName,
-    messageText,
-    timestamp: serverTimestamp(),
-  };
-  await addDoc(collection(db, "chat_groups", groupId, "messages"), message);
-};
-
-export const subscribeToLatestMessage = (
-  groupId: string,
-  callback: (message: DocumentData | null) => void
-) => {
-  const q = query(
-    collection(db, "chat_groups", groupId, "messages"),
-    orderBy("timestamp", "desc"),
-    limit(1)
-  );
-  return onSnapshot(q, (snapshot) => {
-    if (!snapshot.empty) {
-      const doc = snapshot.docs[0];
-      callback({ id: doc.id, ...doc.data() });
-    } else {
-      callback(null);
-    }
-  });
-};
-
 export const fetchLatestMessage = async (groupId: string) => {
   const messagesRef = collection(db, "chat_groups", groupId, "messages");
   const q = query(messagesRef, orderBy("timestamp", "desc"), limit(1));
@@ -159,4 +126,73 @@ export const fetchJoinedGroupsWithLatestMessage = async (userId: string) => {
     })
   );
   return groupsWithMessages;
+};
+
+export const sendMessage = async (
+  groupId: string,
+  senderId: string,
+  senderName: string,
+  messageText: string
+) => {
+  try {
+    const message = {
+      senderId,
+      senderName,
+      messageText,
+      timestamp: serverTimestamp(),
+    };
+
+    // Use a more reliable approach with doc() and setDoc() instead of addDoc()
+    const messageRef = doc(collection(db, "chat_groups", groupId, "messages"));
+    await setDoc(messageRef, message);
+
+    // Update the last message in the group document
+    await setDoc(
+      doc(db, "chat_groups", groupId),
+      {
+        lastMessage: messageText,
+        lastMessageTimestamp: serverTimestamp(),
+        lastMessageSender: senderName,
+      },
+      { merge: true }
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error sending message:", error);
+    return false;
+  }
+};
+
+export const subscribeToMessages = (
+  groupId: string,
+  callback: (messages: Message[]) => void
+) => {
+  try {
+    const q = query(
+      collection(db, "chat_groups", groupId, "messages"),
+      orderBy("timestamp", "desc") // Changed to desc since you're inverting the list
+    );
+
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        const messages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          senderId: doc.data().senderId || "",
+          senderName: doc.data().senderName || "",
+          messageText: doc.data().messageText || "",
+          timestamp: doc.data().timestamp?.toDate() || new Date(),
+        }));
+        callback(messages);
+      },
+      (error) => {
+        console.error("Error subscribing to messages:", error);
+        callback([]); // Return empty array on error
+      }
+    );
+  } catch (error) {
+    console.error("Error setting up message subscription:", error);
+    return () => {}; // Return empty function as unsubscribe
+  }
 };

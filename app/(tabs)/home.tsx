@@ -22,7 +22,7 @@ const home = () => {
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    // fetchJobsAndUserStats();
+    fetchJobsAndUserStats();
   }, []);
 
   const fetchJobsAndUserStats = async () => {
@@ -85,7 +85,9 @@ const home = () => {
                       <Text className="text-xs text-gray-500">
                         Resume Points
                       </Text>
-                      <Text className="text-xl font-bold text-black">375</Text>
+                      <Text className="text-xl font-bold text-black">
+                        {stats?.ats_score}
+                      </Text>
                     </View>
                     <Sparkles size={24} color="#fbbf24" />
                   </View>
@@ -95,7 +97,7 @@ const home = () => {
                         Resume Enhanced
                       </Text>
                       <Text className="text-xl font-bold text-black">
-                        0 time
+                        {stats?.resume_enhanced} time
                       </Text>
                     </View>
                     <Wand2 size={24} color="#a78bfa" />

@@ -1,17 +1,10 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
 import { JoinedGroup } from "@/types";
 import { Link, router } from "expo-router";
 import { useAuth } from "@/context/provider";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchJoinedGroupsWithLatestMessage } from "@/lib/firebaseFunctions";
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 
 const community = () => {
   const { user } = useAuth();
@@ -41,14 +34,35 @@ const community = () => {
       <ScrollView className="w-full h-full px-4 py-2 space-y-6 bg-white">
         {loading ? (
           <View className="flex-1 items-center justify-center bg-white my-6">
-            <ActivityIndicator size="large" color="#0000ff" />
+            {Array.from({ length: 5 }).map((_, idx) => {
+              return (
+                <View
+                  key={idx}
+                  className="w-full my-2 p-2 h-20 border border-gray-200 shadow-md rounded-lg bg-white flex-row items-center justify-start"
+                >
+                  <View className="w-12 h-12 bg-gray-200 animate-pulse rounded-full" />
+                  <View className="flex-1 px-4">
+                    <Text className="text-lg font-semibold animate-pulse p-2 w-20" />
+                    <Text className="text-sm text-gray-500 animate-pulse p-2 w-32" />
+                  </View>
+                </View>
+              );
+            })}
           </View>
         ) : joinedCommunities.length > 0 ? (
           joinedCommunities.map((community) => (
             <TouchableOpacity
               key={community.id}
               activeOpacity={0.8}
-              onPress={() => router.push(`/chatroom/${community.id}` as any)}
+              onPress={() =>
+                router.push({
+                  pathname: `/chatroom/${community.id}` as any,
+                  params: {
+                    groupName: community.groupName,
+                    groupIconUrl: community.groupIconUrl,
+                  },
+                })
+              }
               className="w-full my-2 p-2 h-20 border border-gray-200 shadow-md rounded-lg bg-white flex-row items-center justify-start"
             >
               <View className="w-12 h-12 bg-gray-200 rounded-full">
@@ -68,8 +82,10 @@ const community = () => {
             </TouchableOpacity>
           ))
         ) : (
-          <View>
-            <Text>No communities found</Text>
+          <View className="w-full my-40 flex-1 items-center justify-center">
+            <Text className="text-base font-psemibold text-red-500">
+              No communities found
+            </Text>
           </View>
         )}
         <Text className="text-center text-gray-400 text-sm mb-12 mt-5">
@@ -82,12 +98,12 @@ const community = () => {
             join groups
           </Link>
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => router.push("/group/create")}
           className="w-20 h-10 mb-14 bg-red-500"
         >
           <Text>Create group</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
     </SafeAreaView>
   );

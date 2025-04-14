@@ -92,6 +92,8 @@ export type Stats = {
   id: string;
   user: string;
   jobs_visited: number;
+  resume_enhanced: number;
+  ats_score: number;
 };
 
 export interface JobCardProps {
@@ -169,4 +171,13 @@ export interface ScoreResponse {
     suggestions: string;
   };
   essential_checks: Record<string, string>;
+}
+
+// types/chat.ts
+export interface Message {
+  id: string;
+  senderId: string;
+  senderName: string;
+  messageText: string;
+  timestamp: any; // Firestore timestamp
 }
