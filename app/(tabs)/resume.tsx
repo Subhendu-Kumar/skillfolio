@@ -12,11 +12,11 @@ const resume = () => {
       </View>
       <ScrollView className="w-full h-full px-4 py-4 space-y-6 bg-white">
         <View className="w-full items-center justify-center px-4 mt-4 mb-6">
-          <Text className="text-center text-2xl font-bold text-gray-800">
+          <Text className="text-center text-xl font-bold text-gray-800">
             Your AI-Powered{" "}
             <Text className="text-indigo-600">Resume Builder</Text>
           </Text>
-          <Text className="text-center text-lg font-medium text-gray-700 mt-2">
+          <Text className="text-center text-base font-medium text-gray-700 mt-2">
             helps you get noticed by top companies. Build and analyze your
             resume with our smart tools.
           </Text>

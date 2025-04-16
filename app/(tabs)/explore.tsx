@@ -4,7 +4,7 @@ import { images } from "@/constants";
 import React, { useState } from "react";
 import JobCard from "@/components/JobCard";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, TextInput, Image, Alert, FlatList } from "react-native";
+import { View, Text, TextInput, Image, Alert, FlatList, ActivityIndicator } from "react-native";
 
 const explore = () => {
   const [jobs, setJobs] = useState<Job[] | []>([]);
@@ -41,6 +41,7 @@ const explore = () => {
       </View>
       {isLoading ? (
         <View className="w-full my-24 justify-center items-center">
+          <ActivityIndicator size="large" color="#000000" />
           <Text className="text-gray-500 text-base">
             🔍 Searching jobs for you...
           </Text>
@@ -51,9 +52,8 @@ const explore = () => {
           keyExtractor={(item) => item.job_id}
           renderItem={({ item }) => (
             <>
-              <View className="mb-4" />
+              <View className="mb-2" />
               <JobCard job={item} />
-              <View className="mb-4" />
             </>
           )}
           showsVerticalScrollIndicator={false}

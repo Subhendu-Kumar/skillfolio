@@ -5,28 +5,35 @@ import {
   Alert,
   FlatList,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import API from "@/api";
 import { images } from "@/constants";
 import { Job, Stats } from "@/types";
 import JobCard from "@/components/JobCard";
 import { useAuth } from "@/context/provider";
-import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useCallback, useEffect, useState } from "react";
 import { Sparkles, Wand2, FileText, Briefcase } from "lucide-react-native";
 
 const home = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState<Job[] | []>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
     fetchJobsAndUserStats();
   }, []);
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    fetchJobsAndUserStats();
+    setRefreshing(false);
+  }, []);
+
   const fetchJobsAndUserStats = async () => {
-    setIsLoading(true);
     try {
       const res = await API.get("/latest/jobs/");
       const resStat = await API.get("/user/stats/");
@@ -60,6 +67,9 @@ const home = () => {
       ) : (
         <FlatList
           data={jobs}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           keyExtractor={(item) => item.job_id}
           renderItem={({ item }) => (
             <>
